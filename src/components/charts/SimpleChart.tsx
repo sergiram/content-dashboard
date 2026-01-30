@@ -6,25 +6,22 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
-import { useAppStore } from '../../store/useAppStore';
 import { useMemo } from 'react';
+import type { Video } from '../../types';
 
-export const SimpleChart = () => {
-  const videos = useAppStore((state) => state.videos);
-  const categoryFilter = useAppStore((state) => state.categoryFilter);
+interface ChartProps {
+  videos: Video[];
+}
+
+export const SimpleChart = ({ videos }: ChartProps) => {
   // Usamos un selector para obtener directamente los videos filtrados
 
   const chartData = useMemo(() => {
-    const filtered =
-      categoryFilter === 'all'
-        ? videos
-        : videos.filter((v) => v.category === categoryFilter);
-
-    return filtered.map((video) => ({
+    return videos.map((video) => ({
       name: video.title.substring(0, 15) + '...',
       views: video.views,
     }));
-  }, [videos, categoryFilter]);
+  }, [videos]);
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">

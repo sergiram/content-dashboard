@@ -1,46 +1,36 @@
 import { create } from 'zustand';
-import type { ChannelStats, Video, YouTubeVideo } from '../types';
-import { mockVideos } from '../data/videos';
+import type { ChannelStats, YouTubeVideo } from '../types';
 import { persist } from 'zustand/middleware';
 import { getChannelData, getChannelVideos } from '../services/youtubeService';
 
 interface AppState {
   // state
   isDarkMode: boolean;
-  videos: Video[];
-  categoryFilter: string;
+  isSearchModalOpen: boolean;
 
-  // YouTube
-  isYouTubeMode: boolean;
+  // YouTube Data
   selectedChannel: ChannelStats | null;
   youtubeVideos: YouTubeVideo[];
+
+  // Loading y errores
   isLoadingChannel: boolean;
   isLoadingVideos: boolean;
   error: string | null;
-  isSearchModalOpen: boolean;
 
   // actions
   toggleDarkMode: () => void;
-  addVideo: (video: Video) => void;
-  setCategoryFilter: (category: string) => void;
-
-  // YouTube Actions
   setSearchModalOpen: (isOpen: boolean) => void;
   loadChannel: (channelId: string) => Promise<void>;
-  switchToMockMode: () => void;
-  switchToYouTubeMode: () => void;
+  clearChannel: () => void;
 }
 
 export const useAppStore = create<AppState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       // Initial state
       isDarkMode: false,
-      videos: mockVideos,
-      categoryFilter: 'all',
 
       // Nuevo estado (YOUTUBE)
-      isYouTubeMode: false,
       selectedChannel: null,
       youtubeVideos: [],
       isLoadingChannel: false,
@@ -62,13 +52,6 @@ export const useAppStore = create<AppState>()(
           return { isDarkMode: newDarkMode };
         }),
 
-      addVideo: (newVideo) =>
-        set((state) => ({
-          videos: [...state.videos, newVideo],
-        })),
-
-      setCategoryFilter: (category) => set({ categoryFilter: category }),
-
       setSearchModalOpen: (isOpen) => set({ isSearchModalOpen: isOpen }),
 
       loadChannel: async (channelId: string) => {
@@ -79,7 +62,6 @@ export const useAppStore = create<AppState>()(
           set({
             selectedChannel: channelData,
             isLoadingChannel: false,
-            isYouTubeMode: true,
           });
           const videosData = await getChannelVideos(channelId, 20);
           set({ youtubeVideos: videosData, isLoadingVideos: false });
@@ -93,19 +75,12 @@ export const useAppStore = create<AppState>()(
           });
         }
       },
-
-      switchToMockMode: () => {
+      clearChannel: () =>
         set({
-          isYouTubeMode: false,
           selectedChannel: null,
           youtubeVideos: [],
           error: null,
-        });
-      },
-
-      switchToYouTubeMode: () => {
-        set({ isYouTubeMode: true });
-      },
+        }),
     }),
     {
       name: 'app-storage',

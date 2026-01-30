@@ -6,7 +6,6 @@ export interface Video {
   likes: number;
   comments: number;
   uploadDate: string;
-  category: string;
 }
 
 export interface ChannelStats {
@@ -27,6 +26,7 @@ export interface YouTubeVideo {
   viewCount: number;
   likeCount: number;
   commentCount: number;
+  tags?: string[];
 }
 
 export interface ChannelStats {

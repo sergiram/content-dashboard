@@ -8,24 +8,21 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
-import { useAppStore } from '../../store/useAppStore';
 import { useMemo } from 'react';
+import type { Video } from '../../types';
 
-export const EngagementChart = () => {
-  const videos = useAppStore((state) => state.videos);
-  const categoryFilter = useAppStore((state) => state.categoryFilter);
+interface EngagementChartProps {
+  videos: Video[];
+}
 
+export const EngagementChart = ({ videos }: EngagementChartProps) => {
   const chartData = useMemo(() => {
-    const filtered =
-      categoryFilter === 'all'
-        ? videos
-        : videos.filter((v) => v.category === categoryFilter);
-    return filtered.map((video) => ({
+    return videos.map((video) => ({
       name: video.title.substring(0, 10) + '...',
       likes: video.likes,
       comments: video.comments,
     }));
-  }, [videos, categoryFilter]);
+  }, [videos]);
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">

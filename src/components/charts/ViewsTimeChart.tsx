@@ -7,28 +7,24 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
-import { useAppStore } from '../../store/useAppStore';
 import { useMemo } from 'react';
+import type { Video } from '../../types';
 
-export const ViewsTimeChart = () => {
-  const videos = useAppStore((state) => state.videos);
-  const categoryFilter = useAppStore((state) => state.categoryFilter);
+interface ViewsTimeChartProps {
+  videos: Video[];
+}
 
-  // PASO 2: Transformar para Recharts y ordenar
-  // Recharts necesita un array de objetos [{date, views}, ...]
+export const ViewsTimeChart = ({ videos }: ViewsTimeChartProps) => {
   const chartData = useMemo(() => {
-    const filtered =
-      categoryFilter === 'all'
-        ? videos
-        : videos.filter((v) => v.category === categoryFilter);
-    const dataMap = filtered.reduce((acc: Record<string, number>, video) => {
+    const dataMap = videos.reduce((acc: Record<string, number>, video) => {
       acc[video.uploadDate] = (acc[video.uploadDate] || 0) + video.views;
       return acc;
     }, {});
+
     return Object.entries(dataMap)
       .map(([date, views]) => ({ date, views }))
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-  }, [videos, categoryFilter]);
+  }, [videos]);
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">

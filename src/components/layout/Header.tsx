@@ -5,44 +5,41 @@ export const Header = () => {
   const {
     isDarkMode,
     toggleDarkMode,
-    isYouTubeMode,
-    switchToMockMode,
     setSearchModalOpen,
+    selectedChannel,
+    clearChannel,
   } = useAppStore();
 
   return (
     <header className="bg-white dark:bg-gray-800 p-4 shadow">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-          Content Analytics
-          {isYouTubeMode && (
-            <span className="ml-2 text-sm font-normal text-red-600">
-              (YouTube Mode)
-            </span>
-          )}
-        </h1>
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+            Content Analytics
+          </h1>
+        </div>
 
         <div className="flex items-center gap-4">
-          {/* Botón YouTube Search */}
+          {/* Botón para buscar otro canal */}
           <button
             onClick={() => setSearchModalOpen(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg"
           >
             <Search className="w-4 h-4" />
-            YouTube
+            {selectedChannel ? 'Cambiar canal' : 'Buscar canal'}
           </button>
 
-          {/* Botón volver a Mock (solo si está en YouTube mode) */}
-          {isYouTubeMode && (
+          {/* Botón para limpiar canal actual (opcional) */}
+          {selectedChannel && (
             <button
-              onClick={switchToMockMode}
-              className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors"
+              onClick={clearChannel}
+              className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg"
             >
-              Mock Data
+              Limpiar
             </button>
           )}
 
-          {/* Dark mode toggle */}
+          {/* Dark mode */}
           <button
             onClick={toggleDarkMode}
             className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"

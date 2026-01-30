@@ -25,3 +25,4 @@ dist-ssr
 .env.local
 .env
 TUTORIAL_YOUTUBE_AJUSTADO.md
+PROMPT_AGENTE_IDE.md

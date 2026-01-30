@@ -1,6 +1,6 @@
 interface StatCardProps {
   title: string;
-  value: number;
+  value: number | string;
   icon: string;
 }
 
@@ -17,7 +17,7 @@ export const StatCard = ({ title, value, icon }: StatCardProps) => {
         <div>
           <p className="text-sm text-gray-600 dark:text-gray-400">{title}</p>
           <p className="text-3xl font-bold text-gray-900 dark:text-white mt-2">
-            {formatNumber(value)}
+            {typeof value === 'number' ? formatNumber(value) : value}
           </p>
         </div>
         <div className="text-4xl">{icon}</div>
