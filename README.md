@@ -142,7 +142,7 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más det
 **Sergio Ramón Sánchez**
 
 - GitHub: [@sergiram](https://github.com/sergiram)
-- LinkedIn: [Tu LinkedIn](https://www.linkedin.com/in/sergio-ramon-sanchez-204618129/)
+- LinkedIn: [LinkedIn](https://www.linkedin.com/in/sergio-ramon-sanchez-204618129/)
 
 ## 🙏 Agradecimientos
 
