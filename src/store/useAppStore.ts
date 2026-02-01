@@ -7,10 +7,12 @@ interface AppState {
   // state
   isDarkMode: boolean;
   isSearchModalOpen: boolean;
+  isVideoModalOpen: boolean;
 
   // YouTube Data
   selectedChannel: ChannelStats | null;
   youtubeVideos: YouTubeVideo[];
+  selectedVideo: YouTubeVideo | null;
 
   // Loading y errores
   isLoadingChannel: boolean;
@@ -22,6 +24,8 @@ interface AppState {
   setSearchModalOpen: (isOpen: boolean) => void;
   loadChannel: (channelId: string) => Promise<void>;
   clearChannel: () => void;
+  setSelectedVideo: (video: YouTubeVideo | null) => void;
+  setVideoModalOpen: (isOpen: boolean) => void;
 }
 
 export const useAppStore = create<AppState>()(
@@ -37,6 +41,8 @@ export const useAppStore = create<AppState>()(
       isLoadingVideos: false,
       error: null,
       isSearchModalOpen: false,
+      isVideoModalOpen: false,
+      selectedVideo: null,
 
       // Actions
       toggleDarkMode: () =>
@@ -55,7 +61,11 @@ export const useAppStore = create<AppState>()(
       setSearchModalOpen: (isOpen) => set({ isSearchModalOpen: isOpen }),
 
       loadChannel: async (channelId: string) => {
-        set({ isLoadingChannel: true, isLoadingVideos: true, error: null });
+        set({
+          isLoadingChannel: true,
+          isLoadingVideos: true,
+          error: null,
+        });
 
         try {
           const channelData = await getChannelData(channelId);
@@ -81,6 +91,8 @@ export const useAppStore = create<AppState>()(
           youtubeVideos: [],
           error: null,
         }),
+      setSelectedVideo: (video) => set({ selectedVideo: video }),
+      setVideoModalOpen: (isOpen) => set({ isVideoModalOpen: isOpen }),
     }),
     {
       name: 'app-storage',

@@ -3,6 +3,8 @@ import { SimpleChart } from '../components/charts/SimpleChart';
 import { ViewsTimeChart } from '../components/charts/ViewsTimeChart';
 import { EngagementChart } from '../components/charts/EngagementChart';
 import { StatCard } from '../components/ui/StatCard';
+import { Thumbnail } from '../components/ui/Thumbnail';
+import { VideoModal } from '../components/ui/VideoModal';
 import { useAppStore } from '../store/useAppStore';
 import { transformYouTubeVideosForCharts } from '../utils/dataTransform';
 import { Youtube } from 'lucide-react';
@@ -15,6 +17,10 @@ export const Dashboard = () => {
   const isLoadingVideos = useAppStore((state) => state.isLoadingVideos);
   const error = useAppStore((state) => state.error);
   const setSearchModalOpen = useAppStore((state) => state.setSearchModalOpen);
+  const setVideoModalOpen = useAppStore((state) => state.setVideoModalOpen);
+  const setSelectedVideo = useAppStore((state) => state.setSelectedVideo);
+  const isVideoModalOpen = useAppStore((state) => state.isVideoModalOpen);
+  const selectedVideo = useAppStore((state) => state.selectedVideo);
 
   const transformedVideos = useMemo(() => {
     return transformYouTubeVideosForCharts(youtubeVideos);
@@ -43,7 +49,7 @@ export const Dashboard = () => {
     );
   }
 
-  if (isLoadingChannel) {
+  if (isLoadingChannel && !selectedChannel) {
     return (
       <div className="p-8 flex justify-center items-center min-h-screen">
         <div>
@@ -71,14 +77,18 @@ export const Dashboard = () => {
   }
 
   return (
-    <div className="p-8">
+    <div
+      className={`p-8 transition-opacity duration-300 ${isLoadingChannel ? 'opacity-50' : 'opacity-100'}`}
+    >
       {/* Header */}
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 mb-8">
         <div className="flex items-center gap-6">
-          <img
+          <Thumbnail
+            key={selectedChannel!.id}
             src={selectedChannel!.thumbnail}
             alt={selectedChannel!.title}
-            className="w-24 h-24 rounded-full"
+            className="w-24 h-24 rounded-full bg-gray-200"
+            loading="eager"
           />
           <div>
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
@@ -105,7 +115,7 @@ export const Dashboard = () => {
         />
         <StatCard
           title="Vídeos"
-          value={selectedChannel!.videoCount}
+          value={selectedChannel!.videoCount.toString()}
           icon="🎬"
         />
       </div>
@@ -130,12 +140,17 @@ export const Dashboard = () => {
             {youtubeVideos.map((video) => (
               <div
                 key={video.id}
-                className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
+                className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
+                onClick={() => {
+                  setVideoModalOpen(true);
+                  setSelectedVideo(video);
+                }}
               >
-                <img
+                <Thumbnail
+                  key={video.id}
                   src={video.thumbnail}
                   alt={video.title}
-                  className="w-full h-48 object-cover"
+                  className="w-full h-48 bg-gray-200"
                 />
                 <div className="p-4">
                   <h3 className="font-semibold text-gray-900 dark:text-white text-sm line-clamp-2 mb-2">
@@ -151,6 +166,12 @@ export const Dashboard = () => {
             ))}
           </div>
         </div>
+      )}
+      {isVideoModalOpen && selectedVideo && (
+        <VideoModal
+          video={selectedVideo}
+          onClose={() => setVideoModalOpen(false)}
+        />
       )}
     </div>
   );

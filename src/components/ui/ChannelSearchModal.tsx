@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Search, X, Youtube } from 'lucide-react';
 import { searchChannels } from '../../services/youtubeService';
+import { Thumbnail } from './Thumbnail';
 
 interface Channel {
   id: {
@@ -11,6 +12,12 @@ interface Channel {
     description: string;
     thumbnails: {
       default: {
+        url: string;
+      };
+      medium?: {
+        url: string;
+      };
+      high?: {
         url: string;
       };
     };
@@ -75,8 +82,13 @@ export const ChannelSearchModal = ({
         onClick={onClose}
       />
 
-      {/* Modal */}
-      <div className="fixed inset-0 z-50 flex items-start justify-center pt-20">
+      {/* Modal Container (handles backdrop clicks) */}
+      <div
+        className="fixed inset-0 z-50 flex items-start justify-center pt-20"
+        onClick={(e) => {
+          if (e.target === e.currentTarget) onClose();
+        }}
+      >
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-2xl mx-4 overflow-hidden">
           {/* Header */}
           <div className="flex items-center gap-3 p-4 border-b border-gray-200 dark:border-gray-700">
@@ -143,8 +155,13 @@ export const ChannelSearchModal = ({
                     }}
                     className="w-full p-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors text-left flex items-start gap-4"
                   >
-                    <img
-                      src={channel.snippet.thumbnails.default.url}
+                    <Thumbnail
+                      key={channel.id.channelId}
+                      src={
+                        channel.snippet.thumbnails.high?.url ||
+                        channel.snippet.thumbnails.medium?.url ||
+                        channel.snippet.thumbnails.default.url
+                      }
                       alt={channel.snippet.title}
                       className="w-16 h-16 rounded-full flex-shrink-0"
                     />

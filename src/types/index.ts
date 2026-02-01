@@ -29,25 +29,7 @@ export interface YouTubeVideo {
   tags?: string[];
 }
 
-export interface ChannelStats {
-  id: string;
-  title: string;
-  description: string;
-  thumbnail: string;
-  subscriberCount: number;
-  viewCount: number;
-  videoCount: number;
-}
-
-export interface YouTubeVideo {
-  id: string;
-  title: string;
-  thumbnail: string;
-  publishedAt: string;
-  viewCount: number;
-  likeCount: number;
-  commentCount: number;
-}
+// Redundant definitions removed
 
 export interface YouTubeSearchItem {
   id: {
@@ -65,6 +47,12 @@ export interface YouTubeVideoItem {
     title: string;
     thumbnails: {
       high: {
+        url: string;
+      };
+      medium?: {
+        url: string;
+      };
+      default?: {
         url: string;
       };
     };
@@ -94,6 +82,12 @@ export interface YouTubeChannelItem {
       high: {
         url: string;
       };
+      medium?: {
+        url: string;
+      };
+      default?: {
+        url: string;
+      };
     };
   };
   statistics: {
@@ -116,6 +110,12 @@ export interface YouTubeSearchChannelItem {
     description: string;
     thumbnails: {
       default: {
+        url: string;
+      };
+      medium?: {
+        url: string;
+      };
+      high?: {
         url: string;
       };
     };

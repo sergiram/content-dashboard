@@ -22,7 +22,23 @@ export const searchChannels = async (
   if (!response.ok) throw new Error('Error al buscar canales');
 
   const data: YouTubeSearchChannelResponse = await response.json();
-  return data.items || [];
+  return (data.items || []).map((item) => ({
+    ...item,
+    snippet: {
+      ...item.snippet,
+      // The API response already provides default, medium, and high resolutions
+      // We can directly use the thumbnails object from the API response
+      // If the type YouTubeSearchChannelItem needs to be updated to reflect this,
+      // it should be done in the '../types' file.
+      // For the mapping, we simply return the item as is, as it already contains
+      // the full thumbnails object from the API.
+      thumbnails: {
+        default: item.snippet.thumbnails.default || { url: '' },
+        medium: item.snippet.thumbnails.medium,
+        high: item.snippet.thumbnails.high,
+      },
+    },
+  }));
 };
 
 export const getChannelData = async (
@@ -42,7 +58,11 @@ export const getChannelData = async (
     id: channel.id,
     title: channel.snippet.title,
     description: channel.snippet.description,
-    thumbnail: channel.snippet.thumbnails.high.url,
+    thumbnail:
+      channel.snippet.thumbnails.high?.url ||
+      channel.snippet.thumbnails.medium?.url ||
+      channel.snippet.thumbnails.default?.url ||
+      '',
     subscriberCount: parseInt(channel.statistics.subscriberCount),
     viewCount: parseInt(channel.statistics.viewCount),
     videoCount: parseInt(channel.statistics.videoCount),
@@ -76,7 +96,11 @@ export const getChannelVideos = async (
   return statsData.items.map((video) => ({
     id: video.id,
     title: video.snippet.title,
-    thumbnail: video.snippet.thumbnails.high.url,
+    thumbnail:
+      video.snippet.thumbnails.high?.url ||
+      video.snippet.thumbnails.medium?.url ||
+      video.snippet.thumbnails.default?.url ||
+      '',
     publishedAt: video.snippet.publishedAt,
     viewCount: parseInt(video.statistics.viewCount || '0'),
     likeCount: parseInt(video.statistics.likeCount || '0'),

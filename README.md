@@ -1,73 +1,156 @@
-# React + TypeScript + Vite
+# 📊 Content Analytics Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Dashboard de análisis de canales de YouTube construido con React, TypeScript y la API de YouTube Data v3. Visualiza estadísticas en tiempo real de cualquier canal de YouTube con gráficos interactivos y modo oscuro.
 
-Currently, two official plugins are available:
+## ✨ Características
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🔍 **Búsqueda de canales** - Encuentra cualquier canal de YouTube
+- 📈 **Gráficos interactivos** - Visualización de vistas, engagement y evolución temporal
+- 🌓 **Modo oscuro** - Interfaz adaptable con tema claro/oscuro
+- 📱 **Responsive** - Diseño adaptativo para móvil, tablet y desktop
+- ⚡ **Rendimiento optimizado** - Carga rápida y experiencia fluida
+- 🎨 **UI moderna** - Interfaz limpia y profesional con Tailwind CSS
 
-## React Compiler
+## 🚀 Demo
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+[Ver demo en vivo](https://tu-deploy-url.vercel.app) _(Próximamente)_
 
-## Expanding the ESLint configuration
+## 🛠️ Tecnologías
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **React 19** - Biblioteca de UI
+- **TypeScript** - Tipado estático
+- **Vite** - Build tool y dev server
+- **Tailwind CSS 4** - Estilos utility-first
+- **Recharts** - Gráficos interactivos
+- **Zustand** - Gestión de estado
+- **YouTube Data API v3** - Datos en tiempo real
+- **Lucide React** - Iconos
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 📋 Requisitos Previos
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- Node.js 18+
+- npm o yarn
+- API Key de YouTube Data API v3
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🔑 Obtener API Key de YouTube
+
+1. Ve a [Google Cloud Console](https://console.cloud.google.com/)
+2. Crea un nuevo proyecto o selecciona uno existente
+3. Habilita la **YouTube Data API v3**
+4. Ve a "Credenciales" → "Crear credenciales" → "Clave de API"
+5. Copia tu API key
+
+## ⚙️ Instalación
+
+```bash
+# Clonar el repositorio
+git clone https://github.com/sergiram/content-dashboard.git
+cd content-dashboard
+
+# Instalar dependencias
+npm install
+
+# Configurar variables de entorno
+cp .env.example .env.local
+# Edita .env.local y añade tu API key:
+# VITE_YOUTUBE_API_KEY=tu_api_key_aqui
+
+# Iniciar servidor de desarrollo
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📦 Scripts Disponibles
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev      # Servidor de desarrollo (http://localhost:5173)
+npm run build    # Build de producción
+npm run preview  # Preview del build de producción
+npm run lint     # Ejecutar ESLint
 ```
+
+## 🎯 Uso
+
+1. **Buscar canal**: Haz clic en "Buscar canal" e introduce el nombre del canal
+2. **Ver estadísticas**: Selecciona un canal de los resultados
+3. **Explorar datos**: Visualiza suscriptores, vistas totales, videos y gráficos
+4. **Cambiar canal**: Usa "Cambiar canal" para buscar otro canal
+5. **Modo oscuro**: Alterna entre tema claro y oscuro con el botón 🌙/☀️
+
+## 📊 Gráficos Disponibles
+
+- **Views por vídeo** - Comparativa de vistas entre videos
+- **Evolución de Vistas** - Tendencia temporal de visualizaciones
+- **Interacción** - Análisis de likes vs comentarios
+
+## 🌐 Despliegue
+
+### Vercel (Recomendado)
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/sergiram/content-dashboard)
+
+1. Conecta tu repositorio de GitHub
+2. Añade la variable de entorno `VITE_YOUTUBE_API_KEY`
+3. Deploy automático ✅
+
+### Netlify
+
+1. Conecta tu repositorio
+2. Build command: `npm run build`
+3. Publish directory: `dist`
+4. Añade `VITE_YOUTUBE_API_KEY` en Environment Variables
+
+## 🏗️ Estructura del Proyecto
+
+```
+content-dashboard/
+├── src/
+│   ├── components/
+│   │   ├── charts/          # Componentes de gráficos
+│   │   ├── layout/          # Header y layout
+│   │   └── ui/              # Componentes UI reutilizables
+│   ├── pages/               # Páginas principales
+│   ├── services/            # API de YouTube
+│   ├── store/               # Estado global (Zustand)
+│   ├── types/               # Tipos TypeScript
+│   └── utils/               # Utilidades y helpers
+├── .env.local               # Variables de entorno (no incluido)
+└── package.json
+```
+
+## 🔒 Seguridad
+
+- ✅ API key almacenada en `.env.local` (no versionada)
+- ✅ Variables de entorno con prefijo `VITE_` para seguridad
+- ✅ `.gitignore` configurado correctamente
+
+## 🤝 Contribuir
+
+Las contribuciones son bienvenidas. Por favor:
+
+1. Fork el proyecto
+2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
+
+## 📝 Licencia
+
+Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
+
+## 👤 Autor
+
+**Sergio Ramón Sánchez**
+
+- GitHub: [@sergiram](https://github.com/sergiram)
+- LinkedIn: [Tu LinkedIn](https://www.linkedin.com/in/sergio-ramon-sanchez-204618129/)
+
+## 🙏 Agradecimientos
+
+- [YouTube Data API](https://developers.google.com/youtube/v3)
+- [Recharts](https://recharts.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Lucide Icons](https://lucide.dev/)
+
+---
+
+⭐ Si este proyecto te resultó útil, considera darle una estrella en GitHub

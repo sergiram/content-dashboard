@@ -1,8 +1,24 @@
 {
   "name": "content-dashboard",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "Dashboard de análisis de canales de YouTube con React, TypeScript y YouTube Data API v3",
   "type": "module",
+  "author": "Sergio Ramón",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sergiram/content-dashboard.git"
+  },
+  "keywords": [
+    "youtube",
+    "analytics",
+    "dashboard",
+    "react",
+    "typescript",
+    "recharts",
+    "tailwindcss"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
