@@ -8,12 +8,14 @@ import {
 } from 'recharts';
 import { useMemo } from 'react';
 import type { Video } from '../../types';
+import { useTranslation } from 'react-i18next';
 
 interface ChartProps {
   videos: Video[];
 }
 
 export const SimpleChart = ({ videos }: ChartProps) => {
+  const { t } = useTranslation();
   // Usamos un selector para obtener directamente los videos filtrados
 
   const chartData = useMemo(() => {
@@ -26,7 +28,7 @@ export const SimpleChart = ({ videos }: ChartProps) => {
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
       <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
-        Views por vídeo
+        {t('charts.views_per_video.title')}
       </h3>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={chartData}>

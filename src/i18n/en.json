@@ -1,0 +1,78 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "search_button": "Search YouTube Channel",
+    "loading_channel": "Loading channel...",
+    "loading_videos": "Loading videos...",
+    "retry": "Try again",
+    "clear_button": "Clear",
+    "errors": {
+      "channels_search": "Error searching for channels",
+      "channel_data": "Error getting channel data",
+      "channel_not_found": "Channel not found",
+      "videos_fetch": "Error fetching videos",
+      "stats_fetch": "Error fetching video statistics",
+      "unknown": "An unknown error occurred"
+    }
+  },
+  "header": {
+    "title": "Content Analytics",
+    "buttons": {
+      "change_channel": "Change channel",
+      "search_channel": "Search channel"
+    }
+  },
+  "search": {
+    "input_placeholder": "Search YouTube channel...",
+    "error": "Error searching for channels",
+    "loading": "Searching channels...",
+    "empty": {
+      "title": "Search for a YouTube channel",
+      "description": "Type the name to see real statistics"
+    },
+    "no_results": "No channels found",
+    "footer": {
+      "esc_to_close": "Press ESC to close"
+    },
+    "videos": {
+      "placeholder": "Search videos...",
+      "searching": "Searching: "
+    }
+  },
+  "dashboard": {
+    "hero": {
+      "title": "Search for a YouTube channel",
+      "description": "Start by searching for any YouTube channel to see its statistics"
+    },
+    "stats": {
+      "subscribers": "Subscribers",
+      "total_views": "Total Views",
+      "videos": "Videos"
+    },
+    "recent_videos": {
+      "title": "Recent videos"
+    }
+  },
+  "video_modal": {
+    "published_at": "Published at:",
+    "stats": {
+      "views": "Views",
+      "likes": "Likes",
+      "comments": "Comments"
+    }
+  },
+  "charts": {
+    "views_evolution": {
+      "title": "Views Evolution"
+    },
+    "engagement": {
+      "title": "Engagement: Likes vs Comments",
+      "likes": "Likes",
+      "comments": "Comments"
+    },
+    "views_per_video": {
+      "title": "Views per video"
+    }
+  }
+}

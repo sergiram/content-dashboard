@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import type { ChannelStats, YouTubeVideo } from '../types';
 import { persist } from 'zustand/middleware';
 import { getChannelData, getChannelVideos } from '../services/youtubeService';
+import i18n from '../i18n/config';
 
 interface AppState {
   // state
@@ -31,10 +32,8 @@ interface AppState {
 export const useAppStore = create<AppState>()(
   persist(
     (set) => ({
-      // Initial state
       isDarkMode: false,
 
-      // Nuevo estado (YOUTUBE)
       selectedChannel: null,
       youtubeVideos: [],
       isLoadingChannel: false,
@@ -76,8 +75,10 @@ export const useAppStore = create<AppState>()(
           const videosData = await getChannelVideos(channelId, 20);
           set({ youtubeVideos: videosData, isLoadingVideos: false });
         } catch (err) {
-          const errorMessage =
-            err instanceof Error ? err.message : 'Error desconocido';
+          const errorKey = err instanceof Error ? err.message : 'unknown';
+          const errorMessage = i18n.t(`common.errors.${errorKey}`, {
+            defaultValue: i18n.t('common.errors.unknown'),
+          });
           set({
             error: errorMessage,
             isLoadingChannel: false,

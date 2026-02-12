@@ -1,0 +1,78 @@
+{
+  "common": {
+    "loading": "Cargando...",
+    "error": "Ha ocurrido un error",
+    "search_button": "Buscar canal de YouTube",
+    "loading_channel": "Cargando canal...",
+    "loading_videos": "Cargando vídeos...",
+    "retry": "Intentar de nuevo",
+    "clear_button": "Limpiar",
+    "errors": {
+      "channels_search": "Error al buscar canales",
+      "channel_data": "Error al obtener datos del canal",
+      "channel_not_found": "Canal no encontrado",
+      "videos_fetch": "Error al obtener vídeos",
+      "stats_fetch": "Error al obtener estadísticas de vídeos",
+      "unknown": "Error desconocido"
+    }
+  },
+  "header": {
+    "title": "Content Analytics",
+    "buttons": {
+      "change_channel": "Cambiar canal",
+      "search_channel": "Buscar canal"
+    }
+  },
+  "search": {
+    "input_placeholder": "Buscar canal de YouTube...",
+    "error": "Error al buscar canales",
+    "loading": "Buscando canales...",
+    "empty": {
+      "title": "Busca un canal de YouTube",
+      "description": "Escribe el nombre para ver estadísticas reales"
+    },
+    "no_results": "No se encontraron canales",
+    "footer": {
+      "esc_to_close": "Presiona ESC para cerrar"
+    },
+    "videos": {
+      "placeholder": "Buscar vídeos...",
+      "searching": "Buscando: "
+    }
+  },
+  "dashboard": {
+    "hero": {
+      "title": "Busca un canal de YouTube",
+      "description": "Comienza buscando cualquier canal de YouTube para ver sus estadísticas"
+    },
+    "stats": {
+      "subscribers": "Suscriptores",
+      "total_views": "Vistas totales",
+      "videos": "Vídeos"
+    },
+    "recent_videos": {
+      "title": "Vídeos recientes"
+    }
+  },
+  "video_modal": {
+    "published_at": "Publicado el:",
+    "stats": {
+      "views": "Visualizaciones",
+      "likes": "Likes",
+      "comments": "Comentarios"
+    }
+  },
+  "charts": {
+    "views_evolution": {
+      "title": "Evolución de Vistas"
+    },
+    "engagement": {
+      "title": "Interacción: Likes vs Comentarios",
+      "likes": "Likes",
+      "comments": "Comentarios"
+    },
+    "views_per_video": {
+      "title": "Views por vídeo"
+    }
+  }
+}

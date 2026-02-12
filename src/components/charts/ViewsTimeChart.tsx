@@ -9,12 +9,14 @@ import {
 } from 'recharts';
 import { useMemo } from 'react';
 import type { Video } from '../../types';
+import { useTranslation } from 'react-i18next';
 
 interface ViewsTimeChartProps {
   videos: Video[];
 }
 
 export const ViewsTimeChart = ({ videos }: ViewsTimeChartProps) => {
+  const { t, i18n } = useTranslation();
   const chartData = useMemo(() => {
     const dataMap = videos.reduce((acc: Record<string, number>, video) => {
       acc[video.uploadDate] = (acc[video.uploadDate] || 0) + video.views;
@@ -29,7 +31,7 @@ export const ViewsTimeChart = ({ videos }: ViewsTimeChartProps) => {
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
       <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
-        Evolución de Vistas
+        {t('charts.views_evolution.title')}
       </h3>
       <div className="w-full">
         <ResponsiveContainer width="100%" height={300}>
@@ -44,7 +46,7 @@ export const ViewsTimeChart = ({ videos }: ViewsTimeChartProps) => {
               stroke="#6B7280"
               fontSize={12}
               tickFormatter={(str) =>
-                new Date(str).toLocaleDateString('es-ES', {
+                new Date(str).toLocaleDateString(i18n.language, {
                   day: 'numeric',
                   month: 'short',
                 })

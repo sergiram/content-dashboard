@@ -9,6 +9,7 @@ import { useAppStore } from '../store/useAppStore';
 import { transformYouTubeVideosForCharts } from '../utils/dataTransform';
 import { Youtube } from 'lucide-react';
 import { formatNumber } from '../services/youtubeService';
+import { useTranslation } from 'react-i18next';
 
 export const Dashboard = () => {
   const selectedChannel = useAppStore((state) => state.selectedChannel);
@@ -22,6 +23,8 @@ export const Dashboard = () => {
   const isVideoModalOpen = useAppStore((state) => state.isVideoModalOpen);
   const selectedVideo = useAppStore((state) => state.selectedVideo);
 
+  const { t } = useTranslation();
+
   const transformedVideos = useMemo(() => {
     return transformYouTubeVideosForCharts(youtubeVideos);
   }, [youtubeVideos]);
@@ -32,17 +35,16 @@ export const Dashboard = () => {
         <div className="text-center">
           <Youtube className="w-24 h-24 mx-auto mb-6 text-gray-400" />
           <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-            Busca un canal de YouTube
+            {t('dashboard.hero.title')}
           </h2>
           <p className="text-gray-600 dark:text-gray-400 mb-8">
-            Comienza buscando cualquier canal de YouTube para ver sus
-            estadísticas
+            {t('dashboard.hero.description')}
           </p>
           <button
             onClick={() => setSearchModalOpen(true)}
-            className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-lg"
+            className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-lg cursor-pointer"
           >
-            Buscar canal de YouTube
+            {t('common.search_button')}
           </button>
         </div>
       </div>
@@ -54,7 +56,9 @@ export const Dashboard = () => {
       <div className="p-8 flex justify-center items-center min-h-screen">
         <div>
           <div className="animate-spin w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full mx-auto mb-4" />
-          <p className="text-gray-600 dark:text-gray-400">Cargando canal...</p>
+          <p className="text-gray-600 dark:text-gray-400">
+            {t('common.loading_channel')}
+          </p>
         </div>
       </div>
     );
@@ -69,7 +73,7 @@ export const Dashboard = () => {
             onClick={() => useAppStore.getState().clearChannel()}
             className="mt-4 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg"
           >
-            Intentar de nuevo
+            {t('common.retry')}
           </button>
         </div>
       </div>
@@ -80,7 +84,6 @@ export const Dashboard = () => {
     <div
       className={`p-8 transition-opacity duration-300 ${isLoadingChannel ? 'opacity-50' : 'opacity-100'}`}
     >
-      {/* Header */}
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 mb-8">
         <div className="flex items-center gap-6">
           <Thumbnail
@@ -101,40 +104,39 @@ export const Dashboard = () => {
         </div>
       </div>
 
-      {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <StatCard
-          title="Suscriptores"
+          title={t('dashboard.stats.subscribers')}
           value={formatNumber(selectedChannel!.subscriberCount)}
           icon="👥"
         />
         <StatCard
-          title="Vistas totales"
+          title={t('dashboard.stats.total_views')}
           value={formatNumber(selectedChannel!.viewCount)}
           icon="👁️"
         />
         <StatCard
-          title="Vídeos"
+          title={t('dashboard.stats.videos')}
           value={selectedChannel!.videoCount.toString()}
           icon="🎬"
         />
       </div>
-      {/* Graphics */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
         <SimpleChart videos={transformedVideos} />
         <ViewsTimeChart videos={transformedVideos} />
         <EngagementChart videos={transformedVideos} />
       </div>
-      {/* Recent videos */}
       {isLoadingVideos ? (
         <div className="text-center py-12">
           <div className="animate-spin w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full mx-auto mb-4" />
-          <p className="text-gray-600 dark:text-gray-400">Cargando vídeos...</p>
+          <p className="text-gray-600 dark:text-gray-400">
+            {t('common.loading_videos')}
+          </p>
         </div>
       ) : (
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
           <h2 className="text-xl font-bold dark:text-white mb-4">
-            Vídeos recientes ({youtubeVideos.length})
+            {t('dashboard.recent_videos.title')} ({youtubeVideos.length})
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {youtubeVideos.map((video) => (

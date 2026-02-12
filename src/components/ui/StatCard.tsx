@@ -1,3 +1,5 @@
+import { formatNumber } from '../../services/youtubeService';
+
 interface StatCardProps {
   title: string;
   value: number | string;
@@ -5,12 +7,6 @@ interface StatCardProps {
 }
 
 export const StatCard = ({ title, value, icon }: StatCardProps) => {
-  const formatNumber = (num: number) => {
-    if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`;
-    if (num >= 1000) return `${(num / 1000).toFixed(1)}K`;
-    return num.toString();
-  };
-
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
       <div className="flex items-center justify-between">

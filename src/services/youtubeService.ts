@@ -19,26 +19,10 @@ export const searchChannels = async (
   )}&maxResults=5&key=${API_KEY}`;
 
   const response = await fetch(url);
-  if (!response.ok) throw new Error('Error al buscar canales');
+  if (!response.ok) throw new Error('channels_search');
 
   const data: YouTubeSearchChannelResponse = await response.json();
-  return (data.items || []).map((item) => ({
-    ...item,
-    snippet: {
-      ...item.snippet,
-      // The API response already provides default, medium, and high resolutions
-      // We can directly use the thumbnails object from the API response
-      // If the type YouTubeSearchChannelItem needs to be updated to reflect this,
-      // it should be done in the '../types' file.
-      // For the mapping, we simply return the item as is, as it already contains
-      // the full thumbnails object from the API.
-      thumbnails: {
-        default: item.snippet.thumbnails.default || { url: '' },
-        medium: item.snippet.thumbnails.medium,
-        high: item.snippet.thumbnails.high,
-      },
-    },
-  }));
+  return data.items || [];
 };
 
 export const getChannelData = async (
@@ -47,11 +31,11 @@ export const getChannelData = async (
   const url = `${BASE_URL}/channels?part=snippet,statistics&id=${channelId}&key=${API_KEY}`;
 
   const response = await fetch(url);
-  if (!response.ok) throw new Error('Error al obtener canal');
+  if (!response.ok) throw new Error('channel_data');
 
   const data: YouTubeChannelResponse = await response.json();
   if (!data.items || data.items.length === 0)
-    throw new Error('Canal no encontrado');
+    throw new Error('channel_not_found');
 
   const channel = data.items[0];
   return {
@@ -73,23 +57,20 @@ export const getChannelVideos = async (
   channelId: string,
   maxResults: number = 20,
 ): Promise<YouTubeVideo[]> => {
-  // Buscar videos
   const searchUrl = `${BASE_URL}/search?part=snippet&channelId=${channelId}&maxResults=${maxResults}&order=date&type=video&key=${API_KEY}`;
 
   const searchResponse = await fetch(searchUrl);
-  if (!searchResponse.ok) throw new Error('Error al obtener videos');
+  if (!searchResponse.ok) throw new Error('videos_fetch');
 
   const searchData: YouTubeSearchResponse = await searchResponse.json();
   if (!searchData.items || searchData.items.length === 0) return [];
 
-  // Obtener ID
   const videoIds = searchData.items.map((item) => item.id.videoId).join(',');
 
-  // Obtener Estadisticas
   const statsUrl = `${BASE_URL}/videos?part=statistics,snippet&id=${videoIds}&key=${API_KEY}`;
 
   const statsResponse = await fetch(statsUrl);
-  if (!statsResponse.ok) throw new Error('Error al obtener stats');
+  if (!statsResponse.ok) throw new Error('stats_fetch');
 
   const statsData: YouTubeVideosResponse = await statsResponse.json();
 

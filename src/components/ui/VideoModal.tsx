@@ -1,5 +1,6 @@
 import { formatNumber } from '../../services/youtubeService';
 import type { YouTubeVideo } from '../../types';
+import { useTranslation } from 'react-i18next';
 
 interface VideoModalProps {
   video: YouTubeVideo;
@@ -7,6 +8,8 @@ interface VideoModalProps {
 }
 
 export const VideoModal = ({ video, onClose }: VideoModalProps) => {
+  const { t } = useTranslation();
+
   const handleBackDropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       onClose();
@@ -59,7 +62,7 @@ export const VideoModal = ({ video, onClose }: VideoModalProps) => {
           {/* Contenedor de estadísticas con línea superior completa */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-t border-gray-100 dark:border-gray-700 pt-6 mt-6 gap-6">
             <div className="text-sm text-gray-500 dark:text-gray-400">
-              <p className="font-medium">Publicado el:</p>
+              <p className="font-medium">{t('video_modal.published_at')}</p>
               <p className="text-gray-900 dark:text-white">
                 {video.publishedAt.slice(0, 10)}
               </p>
@@ -69,7 +72,7 @@ export const VideoModal = ({ video, onClose }: VideoModalProps) => {
               <div className="text-center">
                 <span className="text-2xl mb-1 block">👁️</span>
                 <p className="text-[10px] uppercase tracking-wider text-gray-500 font-bold">
-                  Visualizaciones
+                  {t('video_modal.stats.views')}
                 </p>
                 <p className="font-bold text-lg dark:text-white">
                   {formatNumber(video.viewCount)}
@@ -78,7 +81,7 @@ export const VideoModal = ({ video, onClose }: VideoModalProps) => {
               <div className="text-center">
                 <span className="text-2xl mb-1 block">❤️</span>
                 <p className="text-[10px] uppercase tracking-wider text-gray-500 font-bold">
-                  Likes
+                  {t('video_modal.stats.likes')}
                 </p>
                 <p className="font-bold text-lg dark:text-white">
                   {formatNumber(video.likeCount)}
@@ -87,7 +90,7 @@ export const VideoModal = ({ video, onClose }: VideoModalProps) => {
               <div className="text-center">
                 <span className="text-2xl mb-1 block">💬</span>
                 <p className="text-[10px] uppercase tracking-wider text-gray-500 font-bold">
-                  Comentarios
+                  {t('video_modal.stats.comments')}
                 </p>
                 <p className="font-bold text-lg dark:text-white">
                   {formatNumber(video.commentCount)}

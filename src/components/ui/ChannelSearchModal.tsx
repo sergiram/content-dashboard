@@ -2,27 +2,8 @@ import { useEffect, useState } from 'react';
 import { Search, X, Youtube } from 'lucide-react';
 import { searchChannels } from '../../services/youtubeService';
 import { Thumbnail } from './Thumbnail';
-
-interface Channel {
-  id: {
-    channelId: string;
-  };
-  snippet: {
-    title: string;
-    description: string;
-    thumbnails: {
-      default: {
-        url: string;
-      };
-      medium?: {
-        url: string;
-      };
-      high?: {
-        url: string;
-      };
-    };
-  };
-}
+import { useTranslation } from 'react-i18next';
+import type { YouTubeSearchChannelItem } from '../../types';
 
 interface Props {
   isOpen: boolean;
@@ -35,11 +16,11 @@ export const ChannelSearchModal = ({
   onSelectChannel,
 }: Props) => {
   const [query, setQuery] = useState('');
-  const [channels, setChannels] = useState<Channel[]>([]);
+  const [channels, setChannels] = useState<YouTubeSearchChannelItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const { t } = useTranslation();
 
-  // debounce
   useEffect(() => {
     if (query.length < 2) {
       setChannels([]);
@@ -54,14 +35,14 @@ export const ChannelSearchModal = ({
         const results = await searchChannels(query);
         setChannels(results);
       } catch (err) {
-        setError('Error al buscar canales');
+        setError(t('search.error'));
         console.error(err);
       } finally {
         setIsLoading(false);
       }
     }, 500);
     return () => clearTimeout(timeoutId);
-  }, [query]);
+  }, [query, t]);
 
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
@@ -76,13 +57,11 @@ export const ChannelSearchModal = ({
 
   return (
     <>
-      {/* Backdrop */}
       <div
         className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
         onClick={onClose}
       />
 
-      {/* Modal Container (handles backdrop clicks) */}
       <div
         className="fixed inset-0 z-50 flex items-start justify-center pt-20"
         onClick={(e) => {
@@ -90,12 +69,11 @@ export const ChannelSearchModal = ({
         }}
       >
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-2xl mx-4 overflow-hidden">
-          {/* Header */}
           <div className="flex items-center gap-3 p-4 border-b border-gray-200 dark:border-gray-700">
             <Search className="w-5 h-5 text-gray-400" />
             <input
               type="text"
-              placeholder="Buscar canal de YouTube..."
+              placeholder={t('search.input_placeholder')}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               className="flex-1 bg-transparent outline-none text-gray-900 dark:text-white placeholder-gray-400"
@@ -103,13 +81,12 @@ export const ChannelSearchModal = ({
             />
             <button
               onClick={onClose}
-              className="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+              className="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors cursor-pointer"
             >
               <X className="w-5 h-5 text-gray-400" />
             </button>
           </div>
 
-          {/* Content */}
           <div className="max-h-96 overflow-y-auto">
             {error && (
               <div className="p-4 text-red-600 dark:text-red-400 text-sm">
@@ -120,17 +97,15 @@ export const ChannelSearchModal = ({
             {isLoading && (
               <div className="p-8 text-center text-gray-500">
                 <div className="animate-spin w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full mx-auto mb-2" />
-                Buscando canales...
+                {t('search.loading')}
               </div>
             )}
 
             {query.length === 0 && (
               <div className="p-8 text-center text-gray-500">
                 <Youtube className="w-12 h-12 mx-auto mb-3 text-gray-400" />
-                <p className="font-medium mb-1">Busca un canal de YouTube</p>
-                <p className="text-sm">
-                  Escribe el nombre para ver estadísticas reales
-                </p>
+                <p className="font-medium mb-1">{t('search.empty.title')}</p>
+                <p className="text-sm">{t('search.empty.description')}</p>
               </div>
             )}
 
@@ -139,7 +114,7 @@ export const ChannelSearchModal = ({
               channels.length === 0 &&
               !error && (
                 <div className="p-8 text-center text-gray-500">
-                  No se encontraron canales
+                  {t('search.no_results')}
                 </div>
               )}
 
@@ -156,10 +131,9 @@ export const ChannelSearchModal = ({
                     className="w-full p-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors text-left flex items-start gap-4"
                   >
                     <Thumbnail
-                      key={channel.id.channelId}
                       src={
-                        channel.snippet.thumbnails.high?.url ||
                         channel.snippet.thumbnails.medium?.url ||
+                        channel.snippet.thumbnails.high?.url ||
                         channel.snippet.thumbnails.default.url
                       }
                       alt={channel.snippet.title}
@@ -182,14 +156,13 @@ export const ChannelSearchModal = ({
             )}
           </div>
 
-          {/* Footer */}
           <div className="p-3 bg-gray-50 dark:bg-gray-900/50 border-t border-gray-200 dark:border-gray-700">
             <p className="text-xs text-gray-500 text-center">
-              Presiona{' '}
+              {t('search.footer.esc_to_close').split('ESC')[0]}
               <kbd className="px-2 py-1 bg-white dark:bg-gray-800 rounded border">
                 ESC
-              </kbd>{' '}
-              para cerrar
+              </kbd>
+              {t('search.footer.esc_to_close').split('ESC')[1]}
             </p>
           </div>
         </div>

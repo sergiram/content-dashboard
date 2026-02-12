@@ -10,12 +10,14 @@ import {
 } from 'recharts';
 import { useMemo } from 'react';
 import type { Video } from '../../types';
+import { useTranslation } from 'react-i18next';
 
 interface EngagementChartProps {
   videos: Video[];
 }
 
 export const EngagementChart = ({ videos }: EngagementChartProps) => {
+  const { t } = useTranslation();
   const chartData = useMemo(() => {
     return videos.map((video) => ({
       name: video.title.substring(0, 10) + '...',
@@ -27,7 +29,7 @@ export const EngagementChart = ({ videos }: EngagementChartProps) => {
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
       <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
-        Interacción: Likes vs Comentarios
+        {t('charts.engagement.title')}
       </h3>
       <div className="w-full">
         <ResponsiveContainer width="100%" height={300}>
@@ -51,13 +53,13 @@ export const EngagementChart = ({ videos }: EngagementChartProps) => {
             {/* Usamos dos barras para comparar los dos valores en el mismo video */}
             <Bar
               dataKey="likes"
-              name="Likes"
+              name={t('charts.engagement.likes')}
               fill="#8b5cf6"
               radius={[4, 4, 0, 0]}
             />
             <Bar
               dataKey="comments"
-              name="Comentarios"
+              name={t('charts.engagement.comments')}
               fill="#ec4899"
               radius={[4, 4, 0, 0]}
             />

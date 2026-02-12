@@ -6,6 +6,7 @@ Dashboard de análisis de canales de YouTube construido con React, TypeScript y 
 
 - 🔍 **Búsqueda de canales** - Encuentra cualquier canal de YouTube
 - 📈 **Gráficos interactivos** - Visualización de vistas, engagement y evolución temporal
+- 🌐 **Soporte i18n** - Traducción completa ES/EN con detección automática
 - 🌓 **Modo oscuro** - Interfaz adaptable con tema claro/oscuro
 - 📱 **Responsive** - Diseño adaptativo para móvil, tablet y desktop
 - ⚡ **Rendimiento optimizado** - Carga rápida y experiencia fluida
